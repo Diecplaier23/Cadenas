@@ -9,11 +9,11 @@ public class Digitos2 {
         Scanner sc =new Scanner(System.in);
         System.out.print(V+"Introduce caracteres alfanumericos y contaremos los numeros"+RS+"\n");
         String frase= sc.nextLine();
-        int cantidad = cuantosSonDigitos(frase);
+        int cantidad = contarNumeros(frase);
 
         System.out.print(V+"Hay "+B+cantidad+V+" digitos en esos caracteres"+RS+"\n");
     }
-    public static int cuantosSonDigitos(String frase){
+    public static int contarNumeros(String frase){
         int n_digitos=0;
         String[] palabras = frase.split("\\s+");
         for (int i = 0; i < palabras.length; i++) {
