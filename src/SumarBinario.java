@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,11 +17,46 @@ public class SumarBinario {
         String binario1 = sc.nextLine();
         String binario2 = sc.nextLine();
 
+        if (!esBinario(binario1) || !esBinario(binario2)) {
+            System.out.println(R + "Error: los numeros deben contener solo 0 y 1." + RS);
+            sc.close();
+            return;
+        }
+
         String[] binario1Array = new String[binario1.length()];
         String[] binario2Array = new String[binario2.length()];
         ArrayList<String> resultado = new ArrayList<>();
 
+        guardarBits(binario1, binario1Array);
+        guardarBits(binario2, binario2Array);
+
         // Igualamos las longitudes de los arrays añadiendo ceros a la izquierda
+        String[][] arraysIgualados = igualarLongitudes(binario1Array, binario2Array);
+        binario1Array = arraysIgualados[0];
+        binario2Array = arraysIgualados[1];
+
+        // Sumamos los bits de derecha a izquierda teniendo en cuenta el acarreo
+        int acarreo = 0;
+        for (int i = binario1Array.length - 1; i >= 0; i--) {
+
+            int suma = Integer.parseInt(binario1Array[i]) + Integer.parseInt(binario2Array[i]) + acarreo;
+
+            resultado.add(String.valueOf(suma % 2));
+            acarreo = suma / 2;
+        }
+        // Añadimos el último acarreo si existe
+        if (acarreo == 1) {
+            resultado.add("1");
+        }
+        // Mostramos el resultado en el orden correcto
+        for (int i = resultado.size() - 1; i >= 0; i--) {
+            System.out.print(resultado.get(i));
+        }
+        System.out.println();
+        sc.close();
+    }
+
+    public static String[][] igualarLongitudes(String[] binario1Array, String[] binario2Array) {
         if (binario1Array.length != binario2Array.length) {
 
             if (binario1Array.length > binario2Array.length) {
@@ -50,32 +84,25 @@ public class SumarBinario {
                 binario1Array = temp;
             }
         }
-        // Guardamos los bits de cada número en sus respectivos arrays
-        for (int i = 0; i < binario1.length(); i++) {
+        return new String[][] {binario1Array, binario2Array};
+    }
 
-            binario1Array[binario1Array.length - binario1.length() + i] = String.valueOf(Character.getNumericValue(binario1.charAt(i)));
+    public static void guardarBits(String binario, String[] binarioArray) {
+        for (int i = 0; i < binario.length(); i++) {
+            binarioArray[i] = String.valueOf(Character.getNumericValue(binario.charAt(i)));
         }
-        for (int i = 0; i < binario2.length(); i++) {
-            binario2Array[binario2Array.length - binario2.length() + i] = String.valueOf(Character.getNumericValue(binario2.charAt(i)));
-        }
-        // Sumamos los bits de derecha a izquierda teniendo en cuenta el acarreo
-        int acarreo = 0;
-        for (int i = binario1Array.length - 1; i >= 0; i--) {
+    }
 
-            int suma = Integer.parseInt(binario1Array[i]) + Integer.parseInt(binario2Array[i]) + acarreo;
+    public static boolean esBinario(String binario) {
+        if (binario == null || binario.isEmpty()) {
+            return false;
+        }
 
-            resultado.add(String.valueOf(suma % 2));
-            acarreo = suma / 2;
+        for (int i = 0; i < binario.length(); i++) {
+            if (binario.charAt(i) != '0' && binario.charAt(i) != '1') {
+                return false;
+            }
         }
-        // Añadimos el último acarreo si existe
-        if (acarreo == 1) {
-            resultado.add("1");
-        }
-        // Mostramos el resultado en el orden correcto
-        for (int i = resultado.size() - 1; i >= 0; i--) {
-            System.out.print(resultado.get(i));
-        }
-        System.out.println();
-        sc.close();
+        return true;
     }
 }
