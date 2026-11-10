@@ -23,6 +23,10 @@ public class SumarBinario {
             return;
         }
 
+        System.out.println(sumaBinario(binario1, binario2));
+    }
+
+    public static String sumaBinario(String binario1, String binario2) {
         String[] binario1Array = new String[binario1.length()];
         String[] binario2Array = new String[binario2.length()];
         ArrayList<String> resultado = new ArrayList<>();
@@ -48,12 +52,13 @@ public class SumarBinario {
         if (acarreo == 1) {
             resultado.add("1");
         }
-        // Mostramos el resultado en el orden correcto
+
+        StringBuilder sumaBinaria = new StringBuilder();
+        // Formamos el resultado en el orden correcto
         for (int i = resultado.size() - 1; i >= 0; i--) {
-            System.out.print(resultado.get(i));
+            sumaBinaria.append(resultado.get(i));
         }
-        System.out.println();
-        sc.close();
+        return sumaBinaria.toString();
     }
 
     public static String[][] igualarLongitudes(String[] binario1Array, String[] binario2Array) {
